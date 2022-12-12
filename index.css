@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: auto;
+}
+.selection {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 85%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selection .icon i {
+  font-size: 27px;
+  position: relative;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+.selection .icon i:hover {
+  transform: scaleX(1.25) scaleY(1.25);
+}
+.selection .icon i span {
+  content: "";
+  position: absolute;
+  color: #ffff;
+  top: -14px;
+  right: -10px;
+  font-size: 12px;
+  background-color: red;
+  border-radius: 100%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  /* text-align: center; */
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 85%;
+}
+.card {
+  max-width: 100%;
+  border: none !important;
+}
+.info {
+  margin: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+img {
+  width: 100%;
+  margin-top: 7px;
+}
