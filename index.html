@@ -27,10 +27,17 @@
   <body>
     <header></header>
     <section class="selection">
-      <div class="btn-group" role="group" aria-label="Basic example">
+      <!-- <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-outline-primary">Iphone</button>
         <button type="button" class="btn btn-outline-primary">SamSung</button>
-      </div>
+      </div> -->
+      <select id="gender" onchange="genderChanged(this)">
+        <option value=""> -- Chọn -- </option>
+        <option value="iphone">Iphone</option>
+        <option value="samsung"> SamSung </option>
+    </select>
+    <p style="color: red" id="show_message"></p>
+
       <div class="icon">
         <a href="" data-toggle="modal" data-target="#myModal"
           ><i class="fa-solid fa-cart-arrow-down">
@@ -254,7 +261,7 @@
 
     
     <!-- em thêm cái link axios cdn -->
-    <!-- <script src="<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js" integrity="sha512-zJYu9ICC+mWF3+dJ4QC34N9RA0OVS1XtPbnf6oXlvGrLGNB8egsEzu/5wgG90I61hOOKvcywoLzwNmPqGAdATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js" integrity="sha512-zJYu9ICC+mWF3+dJ4QC34N9RA0OVS1XtPbnf6oXlvGrLGNB8egsEzu/5wgG90I61hOOKvcywoLzwNmPqGAdATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="./src/model/product.js"></script>
     <script src="./src/index.js"></script>
