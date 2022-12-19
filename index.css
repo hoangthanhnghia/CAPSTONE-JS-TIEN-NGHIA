@@ -56,3 +56,8 @@ img {
   width: 100%;
   margin-top: 7px;
 }
+@media (min-width: 576px){
+.modal-dialog {
+max-width: 700px;
+margin: 40px auto;
+}}
