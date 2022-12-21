@@ -28,32 +28,60 @@ function genderChanged(obj) {
   var value = obj.value;
   if (value === "") {
     message.innerHTML = "Bạn chưa chọn loại sản phẩm";
+    var productList = [];
+    // renderDevice();
   } else if (value === "iphone") {
     message.innerHTML = "Bạn đã chọn Iphone";
+    arrayIphone = [];
+
     for (var i = 0; i < productList.length; i++) {
-      if (productList.type[i] === "iphone") {
+      if (productList[i].type === "Iphone") {
         // duyệt vòng for chọn type === iphone cộng dồn vào mảng
 
         // khi type === 'iphone' thì in ra danh sách iphone
-        renderProductsIphone();
+        arrayIphone.push(productList[i]);
       }
     }
+    console.log(arrayIphone);
+    renderProductsIphone();
+
   } else if (value === "samsung") {
     message.innerHTML = "Bạn đã chọn Samsung";
+    // renderProductsIphone();
+    arraySamsung = [];
+
+    for (var j = 0; j < productList.length; j++) {
+      if (productList[j].type === "Samsung") {
+        // duyệt vòng for chọn type === iphone cộng dồn vào mảng
+
+        // khi type === 'iphone' thì in ra danh sách iphone
+        // console.log("okela" ,productList[j].name);
+        arraySamsung.push(productList[j]);
+        
+      }
+      
+      
+    }
+    console.log(arraySamsung);
     // duyệt vòng for chọn type === samsung cộng dồn vào mảng
 
     // khi type === 'samsung' thì in ra danh sách samsung
-    renderProductsSamsung();
+    // return renderProductsSamsung();
   }
 }
 
 // cần 2 danh sách của iphone và samsung để in ra màn hình khi type === '1 trong 2'
 //
-function renderProductsIphone() {
+function renderProductsIphone(id) {
+  // fetchProductList();
+  // data = data || productList;
+
   var htmlIphone = "";
   for (var i = 0; i < productList.length; i++) {
-    htmlIphone += `<div>${productList[i].type}</div>
+    if(data[i].type === "iphone"){
+      htmlIphone += `<div>${data[i]}</div>
         `;
+    }
   }
 }
 
