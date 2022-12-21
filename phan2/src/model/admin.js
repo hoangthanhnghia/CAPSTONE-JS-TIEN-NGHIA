@@ -1,4 +1,4 @@
-function Admin(id, name, price, img, desc){
+function Device(id, name, price, img, desc){
     this.id = id;
     this.name = name;
     this.price = price;
