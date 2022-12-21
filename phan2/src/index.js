@@ -137,15 +137,19 @@ function mapProductList(local) {
   }
   
   function validateForm() {
-    var name = document.getElementById("").value;
-    var price = document.getElementById("").value;
-    var img = document.getElementById("").value;
-    var desc = document.getElementById("").value;
+    // var id = document.getElementById("IdSP").value;
+    var name = document.getElementById("TenSP").value;
+    var price = document.getElementById("GiaSP").value;
+    var img = document.getElementById("HinhSP").value;
+    var desc = document.getElementById("MoTa").value;
   
     var nameRegexp = /^[A-z\s]+$/g;
     var priceRegexp = /^\$?[\d,]+(\.\d*)?$/g;
   
     // nối các hàm kiểm tra của ô nameValid
+//   var idValid = required(id, { errorId: 'productIdError' }) &&
+//   length(id, {errorId: 'productIdError', min: 4, max: 6});
+
   var nameValid =
   required(name, { errorId: "nameError" }) &&
   pattern(name, { errorId: "nameError", regexp: nameRegexp });
