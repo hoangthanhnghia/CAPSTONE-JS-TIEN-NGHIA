@@ -80,3 +80,81 @@ function mapProductList(local) {
 
   return result;
 }
+
+// --------validation------
+
+// required
+
+/**
+ * val: string
+ * config: {
+ *      errorId: string
+ * }
+ */
+ function required(val, config){
+    if(val.length > 0) {
+        document.getElementById(config.errorId).innerHTML = "";
+        return true;
+    }
+  
+    document.getElementById(config.errorId).innerHTML = "*Vui lòng nhập giá trị";
+    return false;
+  }
+  
+  // min-length vs max-length
+  /**
+  * val: string
+  * config: {
+  *      errorId: string,
+  *      min: number,
+  *      max: number,
+  * }
+  */
+  function lenght(val, config) {
+    if(val.length < config.min || val.length > config.max) {
+        document.getElementById(config.errorId).innerHTML = `*Độ dài phải từ ${config.min} đến ${config.max} kí tự`;
+        return false;
+    }
+    document.getElementById(config.errorId).innerHTML = "";
+    return true;
+  }
+  
+  // pattern - regular expression
+  /**
+  * val: string
+  * config: {
+  *      errorId: string,
+  *      regexp: object
+  * }
+  */
+  function pattern(val, config) {
+    if (config.regexp.test(val)) {
+        document.getElementById(config.errorId).innerHTML = "";
+        return true;
+    }
+    document.getElementById(config.errorId).innerHTML = "*Giá trị không đúng định dạng";
+    return false;
+  }
+  
+  function validateForm() {
+    var name = document.getElementById("").value;
+    var price = document.getElementById("").value;
+    var img = document.getElementById("").value;
+    var desc = document.getElementById("").value;
+  
+    var nameRegexp = /^[A-z\s]+$/g;
+    var priceRegexp = /^\$?[\d,]+(\.\d*)?$/g;
+  
+    // nối các hàm kiểm tra của ô nameValid
+  var nameValid =
+  required(name, { errorId: "nameError" }) &&
+  pattern(name, { errorId: "nameError", regexp: nameRegexp });
+  
+  var priceValid = 
+  required(price, {errorId: "priceError"}) && pattern (price, {errorId: "priceError", regexp: priceRegexp});
+  
+  var isFormValid = nameValid && priceValid;
+  
+  return isFormValid;
+  }
+//   --------end validation------
