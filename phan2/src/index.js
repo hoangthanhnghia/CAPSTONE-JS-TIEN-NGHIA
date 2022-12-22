@@ -1,4 +1,10 @@
 var productList = [];
+var mode = "create";
+
+function submitForm() {
+  if (mode === "create") createProduct();
+  else if (mode === "update") updateProduct();
+}
 
 function createProduct() {
   if (!validateForm()) return;
@@ -79,6 +85,27 @@ function mapProductList(local) {
   }
 
   return result;
+}
+
+function saveStudentList() {
+  // chuyển studentList thành chuỗi JSON
+  var productListJson = JSON.stringify(productList);
+  localStorage.setItem("SL", productListJson);
+}
+
+window.onload = function () {
+   fetchStudentList(); // return promsise
+};
+
+// input: id => ouput: index
+function findById(id) {
+  for (var i = 0; i < productList.length; i++) {
+    if (productList[i].id === id) {
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 // --------validation------
