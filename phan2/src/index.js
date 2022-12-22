@@ -32,6 +32,9 @@ function createProduct() {
     .catch(function (err) {
       console.log(err);
     });
+
+  document.getElementById("form").reset();
+
 }
 
 function renderDevice(data) {
@@ -45,7 +48,14 @@ function renderDevice(data) {
         <td>${data[i].price}</td>
         <td>${data[i].img}</td>
         <td>${data[i].desc}</td>
-        <td><button class="btn btn-primary">Sửa</button> <button class="btn btn-danger">Xóa</button> </td>
+        <td><button 
+        onclick="getUpdateProduct('${data[i].id}')"  
+        class="btn btn-info" 
+        data-toggle="modal"
+        data-target="#myModal">Sửa</button> 
+        <button 
+        class="btn btn-danger">Xóa</button> </td>
+        
     </tr>`;
   }
   document.getElementById("tblDanhSachSP").innerHTML = html;
@@ -94,7 +104,7 @@ function saveProductList() {
 }
 
 window.onload = function () {
-   fetchStudentList(); // return promsise
+   fetchProductList(); // return promsise
 };
 
 // input: id => ouput: index
@@ -107,6 +117,88 @@ function findById(id) {
 
   return -1;
 }
+
+// part 1: chon doi tuong muon cap nhat va hien len input
+function getUpdateProduct(id) {
+  var index = findById(id);
+  // fetchProductList(id).then(function (res) {
+  //   var product = res.data;
+
+  // document.getElementById("IdSP").value = product.id;
+  // document.getElementById("TenSP").value = product.name;
+  // document.getElementById("GiaSP").value = product.price;
+  // document.getElementById("HinhSP").value = product.img;
+  // document.getElementById("MoTa").value = product.desc;
+
+  // //đổi mode sang update
+  // mode = "update";
+  // document.getElementById("btnCreate").classList.add("btn-info");
+
+  // // add button cancel để cancel update
+  // if (document.getElementById("btnCancel")) return;
+
+  var btnCancel = document.createElement("button");
+      btnCancel.id = "btnCancel";
+      btnCancel.innerHTML = "Huỷ";
+      btnCancel.type = "button";
+      btnCancel.classList.add("btn", "btn-secondary");
+      btnCancel.onclick = cancelUpdate;
+      document.getElementById("btnGroup").appendChild(btnCancel);
+  
+  if (index === -1) return alert ("id không hợp lệ");
+  var product = productList[index];
+  document.getElementById("IdSP").value = product.id;
+  document.getElementById("TenSP").value = product.name;
+  document.getElementById("GiaSP").value = product.price;
+  document.getElementById("HinhSP").value = product.img;
+  document.getElementById("MoTa").value = product.desc;
+
+  // doi mode sang update
+  mode = "update";
+  document.getElementById("btnCreate").innerHTML = "Lưu thay đổi";
+  document.getElementById("btnCreate").classList.add("btn-info");
+
+  // createProduct();
+  saveProductList();
+  // renderDevice();
+}
+
+function cancelUpdate() {
+  mode = "create";
+  document.getElementById("btnCreate").innerHTML = "Thêm san pham";
+  document.getElementById("btnCreate").classList.remove("btn-info");
+
+  var btnCancel = document.getElementById("btnCancel");
+  btnCancel.remove();
+
+  // reset form
+  document.getElementById("form").reset();
+}
+
+//Part 2: Cho người dùng sửa trên form và nhấn nút cập nhật
+function updateProduct() {
+  var id = document.getElementById("IdSP").value;
+  var name = document.getElementById("TenSP").value;
+  var price = +document.getElementById("GiaSP").value;
+  var img = document.getElementById("HinhSP").value;
+  var desc = document.getElementById("MoTa").value;
+
+  var index = findById(id);
+  var product = productList[index];
+
+  product.name = name;
+  product.price = price;
+  product.img = img;
+  product.desc = desc;
+
+  renderDevice();
+  saveProductList();
+  cancelUpdate();
+}
+
+// function refresh() {
+//   document.getElementById
+// }
 
 // --------validation------
 

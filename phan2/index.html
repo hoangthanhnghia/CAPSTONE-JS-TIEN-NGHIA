@@ -110,7 +110,7 @@
               </button>
             </div>
             <!-- Modal body -->
-            <div class="modal-body">
+            <form id="form" class="modal-body">
               <div class="form-group">
                 <label>ID</label>
                 <input id="IdSP" class="form-control" placeholder="id" />
@@ -156,10 +156,14 @@
                   placeholder="Nhập vào mô tả"
                 ></textarea>
               </div>
-            </div>
+            </form>
             <!-- Modal footer -->
-            <div class="modal-footer">
-              <button onclick="createProduct()" class="btn btn-success">
+            <div id="btnGroup" class="modal-footer">
+              <button 
+              type="button"
+              onclick="submitForm()" 
+              class="btn btn-success"
+              id="btnCreate">
                 Add Product
               </button>
             </div>
