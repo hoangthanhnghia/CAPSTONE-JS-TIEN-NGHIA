@@ -87,7 +87,7 @@ function mapProductList(local) {
   return result;
 }
 
-function saveStudentList() {
+function saveProductList() {
   // chuyển studentList thành chuỗi JSON
   var productListJson = JSON.stringify(productList);
   localStorage.setItem("SL", productListJson);
