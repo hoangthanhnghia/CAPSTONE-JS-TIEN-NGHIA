@@ -34,7 +34,6 @@ function createProduct() {
     });
 
   document.getElementById("form").reset();
-
 }
 
 function renderDevice(data) {
@@ -46,7 +45,7 @@ function renderDevice(data) {
         <td>${data[i].id}</td>
         <td>${data[i].name}</td>
         <td>${data[i].price}</td>
-        <td>${data[i].img}</td>
+        <td><img style="width: 30%;" src="${data[i].img}" alt=""></td>
         <td>${data[i].desc}</td>
         <td><button 
         onclick="getUpdateProduct('${data[i].id}')"  
@@ -54,6 +53,7 @@ function renderDevice(data) {
         data-toggle="modal"
         data-target="#myModal">Sửa</button> 
         <button 
+        onclick="deleteDevice('${data[i].id}')"
         class="btn btn-danger">Xóa</button> </td>
         
     </tr>`;
@@ -104,7 +104,7 @@ function saveProductList() {
 }
 
 window.onload = function () {
-   fetchProductList(); // return promsise
+  fetchProductList(); // return promsise
 };
 
 // input: id => ouput: index
@@ -138,14 +138,14 @@ function getUpdateProduct(id) {
   // if (document.getElementById("btnCancel")) return;
 
   var btnCancel = document.createElement("button");
-      btnCancel.id = "btnCancel";
-      btnCancel.innerHTML = "Huỷ";
-      btnCancel.type = "button";
-      btnCancel.classList.add("btn", "btn-secondary");
-      btnCancel.onclick = cancelUpdate;
-      document.getElementById("btnGroup").appendChild(btnCancel);
-  
-  if (index === -1) return alert ("id không hợp lệ");
+  btnCancel.id = "btnCancel";
+  btnCancel.innerHTML = "Huỷ";
+  btnCancel.type = "button";
+  btnCancel.classList.add("btn", "btn-secondary");
+  btnCancel.onclick = cancelUpdate;
+  document.getElementById("btnGroup").appendChild(btnCancel);
+
+  if (index === -1) return alert("id không hợp lệ");
   var product = productList[index];
   document.getElementById("IdSP").value = product.id;
   document.getElementById("TenSP").value = product.name;
@@ -195,6 +195,19 @@ function updateProduct() {
   saveProductList();
   cancelUpdate();
 }
+function deleteDevice(id) {
+  var promise = axios({
+    url: "https://639bfea842e3ad69272413bc.mockapi.io/phan2/" + id,
+    method: "DELETE",
+  })
+    .then(function (res) {
+      console.log(res);
+      fetchProductList()
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
 
 // function refresh() {
 //   document.getElementById
@@ -210,74 +223,78 @@ function updateProduct() {
  *      errorId: string
  * }
  */
- function required(val, config){
-    if(val.length > 0) {
-        document.getElementById(config.errorId).innerHTML = "";
-        return true;
-    }
-  
-    document.getElementById(config.errorId).innerHTML = "*Vui lòng nhập giá trị";
-    return false;
-  }
-  
-  // min-length vs max-length
-  /**
-  * val: string
-  * config: {
-  *      errorId: string,
-  *      min: number,
-  *      max: number,
-  * }
-  */
-  function lenght(val, config) {
-    if(val.length < config.min || val.length > config.max) {
-        document.getElementById(config.errorId).innerHTML = `*Độ dài phải từ ${config.min} đến ${config.max} kí tự`;
-        return false;
-    }
+function required(val, config) {
+  if (val.length > 0) {
     document.getElementById(config.errorId).innerHTML = "";
     return true;
   }
-  
-  // pattern - regular expression
-  /**
-  * val: string
-  * config: {
-  *      errorId: string,
-  *      regexp: object
-  * }
-  */
-  function pattern(val, config) {
-    if (config.regexp.test(val)) {
-        document.getElementById(config.errorId).innerHTML = "";
-        return true;
-    }
-    document.getElementById(config.errorId).innerHTML = "*Giá trị không đúng định dạng";
+
+  document.getElementById(config.errorId).innerHTML = "*Vui lòng nhập giá trị";
+  return false;
+}
+
+// min-length vs max-length
+/**
+ * val: string
+ * config: {
+ *      errorId: string,
+ *      min: number,
+ *      max: number,
+ * }
+ */
+function lenght(val, config) {
+  if (val.length < config.min || val.length > config.max) {
+    document.getElementById(
+      config.errorId
+    ).innerHTML = `*Độ dài phải từ ${config.min} đến ${config.max} kí tự`;
     return false;
   }
-  
-  function validateForm() {
-    // var id = document.getElementById("IdSP").value;
-    var name = document.getElementById("TenSP").value;
-    var price = document.getElementById("GiaSP").value;
-    var img = document.getElementById("HinhSP").value;
-    var desc = document.getElementById("MoTa").value;
-  
-    var nameRegexp = /^[A-z\s]+$/g;
-    var priceRegexp = /^\$?[\d,]+(\.\d*)?$/g;
-  
-    // nối các hàm kiểm tra của ô nameValid
-//   var idValid = required(id, { errorId: 'productIdError' }) &&
-//   length(id, {errorId: 'productIdError', min: 4, max: 6});
+  document.getElementById(config.errorId).innerHTML = "";
+  return true;
+}
+
+// pattern - regular expression
+/**
+ * val: string
+ * config: {
+ *      errorId: string,
+ *      regexp: object
+ * }
+ */
+function pattern(val, config) {
+  if (config.regexp.test(val)) {
+    document.getElementById(config.errorId).innerHTML = "";
+    return true;
+  }
+  document.getElementById(config.errorId).innerHTML =
+    "*Giá trị không đúng định dạng";
+  return false;
+}
+
+function validateForm() {
+  // var id = document.getElementById("IdSP").value;
+  var name = document.getElementById("TenSP").value;
+  var price = document.getElementById("GiaSP").value;
+  var img = document.getElementById("HinhSP").value;
+  var desc = document.getElementById("MoTa").value;
+
+  var nameRegexp = /^[A-z\s]+$/g;
+  var priceRegexp = /^\$?[\d,]+(\.\d*)?$/g;
+
+  // nối các hàm kiểm tra của ô nameValid
+  //   var idValid = required(id, { errorId: 'productIdError' }) &&
+  //   length(id, {errorId: 'productIdError', min: 4, max: 6});
 
   var nameValid =
-  required(name, { errorId: "nameError" }) &&
-  pattern(name, { errorId: "nameError", regexp: nameRegexp });
-  
-  var priceValid = 
-  required(price, {errorId: "priceError"}) && pattern (price, {errorId: "priceError", regexp: priceRegexp});
-  
+    required(name, { errorId: "nameError" }) &&
+    pattern(name, { errorId: "nameError", regexp: nameRegexp });
+
+  var priceValid =
+    required(price, { errorId: "priceError" }) &&
+    pattern(price, { errorId: "priceError", regexp: priceRegexp });
+
   var isFormValid = nameValid && priceValid;
-  
+
   return isFormValid;
-  }
+}
 //   --------end validation------
