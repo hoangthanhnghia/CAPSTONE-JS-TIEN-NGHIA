@@ -10,6 +10,7 @@ function fetchProductList() {
   });
   promise
     .then(function (res) {
+      // console.log(res)
       productList = res.data;
       console.log("ok", productList);
       renderDevice();
@@ -28,60 +29,32 @@ function genderChanged(obj) {
   var value = obj.value;
   if (value === "") {
     message.innerHTML = "Bạn chưa chọn loại sản phẩm";
-    var productList = [];
-    // renderDevice();
   } else if (value === "iphone") {
     message.innerHTML = "Bạn đã chọn Iphone";
-    arrayIphone = [];
-
     for (var i = 0; i < productList.length; i++) {
-      if (productList[i].type === "Iphone") {
+      if (productList.type[i] === "iphone") {
         // duyệt vòng for chọn type === iphone cộng dồn vào mảng
 
         // khi type === 'iphone' thì in ra danh sách iphone
-        arrayIphone.push(productList[i]);
+        renderProductsIphone();
       }
     }
-    console.log(arrayIphone);
-    renderProductsIphone();
-
   } else if (value === "samsung") {
     message.innerHTML = "Bạn đã chọn Samsung";
-    // renderProductsIphone();
-    arraySamsung = [];
-
-    for (var j = 0; j < productList.length; j++) {
-      if (productList[j].type === "Samsung") {
-        // duyệt vòng for chọn type === iphone cộng dồn vào mảng
-
-        // khi type === 'iphone' thì in ra danh sách iphone
-        // console.log("okela" ,productList[j].name);
-        arraySamsung.push(productList[j]);
-        
-      }
-      
-      
-    }
-    console.log(arraySamsung);
     // duyệt vòng for chọn type === samsung cộng dồn vào mảng
 
     // khi type === 'samsung' thì in ra danh sách samsung
-    // return renderProductsSamsung();
+    renderProductsSamsung();
   }
 }
 
 // cần 2 danh sách của iphone và samsung để in ra màn hình khi type === '1 trong 2'
 //
-function renderProductsIphone(id) {
-  // fetchProductList();
-  // data = data || productList;
-
+function renderProductsIphone() {
   var htmlIphone = "";
   for (var i = 0; i < productList.length; i++) {
-    if(data[i].type === "iphone"){
-      htmlIphone += `<div>${data[i]}</div>
+    htmlIphone += `<div>${productList[i].type}</div>
         `;
-    }
   }
 }
 
@@ -90,25 +63,25 @@ function renderProductsSamsung() {
   for (var i = 0; i < productList.length; i++) {}
 }
 
-function renderDevice() {
-  // data = data || productList;
-  // console.log(productList)
+function renderDevice(data) {
+  data = data || productList;
+  console.log(data);
   var html = "";
-  for (var i = 0; i < productList.length; i++) {
+  for (var i = 0; i < data.length; i++) {
     html += `<div class="col-3 p-0">
     <div class="info">
       <div class="card" style="width: 18rem">
         <div class="card-body">
           <img
-            src= ${productList[i].img}
+            src= ${data[i].img}
             class="card-img-top"
             alt="Iphone14ProMaxBlack"
           />
-          <h5 class="card-title mt-2">${productList[i].name}</h5>
+          <h5 class="card-title mt-2">${data[i].name}</h5>
           <p class="card-text">
-          ${productList[i].desc}
+          ${data[i].desc}
           </p>
-          <button onclick="shopMyCart(this)" class="btn btn-primary">Add To Cart</button>
+          <button onclick="showMyCart('${data[i].id}'), qtyMyCart()" class="btn btn-primary">Add To Cart</button>
         </div> 
       </div>
     </div>
@@ -130,59 +103,69 @@ function renderDevice() {
 //     }
 //   });
 // });
-function shopMyCart() {
-  var myCart = "";
-  for (var i = 0; i < productList.length; i++) {
-    myCart += `<tbody>
-    <div class="row mx-0 align-items-center">
-      <div class="col">
-        <img
-          style="max-width: 100%"
-          src=${productList[i].img}
-          alt=""
-        />
+
+function showMyCart(id) {
+  info = "";
+  var index = findById(id);
+  var cartItem = productList[index];
+  card.push(cartItem);
+  // console.log(card);
+  for (i = 0; i < card.length; i++) {
+    info += `<tbody>
+      <div class="row mx-0 align-items-center" id="test">
+        <div class="col">
+          <img
+            style="max-width: 100%"
+            src=${card[i].img}
+            alt=""
+          />
+        </div>
+        <div class="col">
+          <p>${card[i].name}</p>
+        </div>
+        <div class="col">
+          <p>${card[i].price}</p>
+        </div>
+        <div class="col main__nav">
+          <button style="border-radius: 50%" class="btn-qty">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <span class="cantidad-elementos" id="qty">1</span>
+          <button onclick="upNumber()" style="border-radius: 50%" class="btn-qty">
+            <i class="fa-solid fa-angle-right"></i>
+          </button>
+        </div>
+        <div class="col">
+          <p class="precio-final"></p>
+        </div>
+        <div class="col" style="text-align: center">
+          <button onclick="deleteItem('${card[i].id}')" class="btn btn-danger">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
       </div>
-      <div class="col">
-        <p>${productList[i].name}</p>
-      </div>
-      <div class="col">
-        <p>${productList[i].price}</p>
-      </div>
-      <div class="col main__nav">
-        <button style="border-radius: 50%" class="btn-qty">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <span class="cantidad-elementos">0</span>
-        <button style="border-radius: 50%" class="btn-qty">
-          <i class="fa-solid fa-angle-right"></i>
-        </button>
-      </div>
-      <div class="col">
-        <p class="precio-final">12.000.000</p>
-      </div>
-      <div class="col" style="text-align: center">
-        <button id="btnDelete" class="btn btn-danger">
-          <i class="fa-solid fa-trash-can"></i>
-        </button>
-      </div>
-    </div>
-    <hr style="width: 96%" />
-  </tbody>`;
+      <hr style="width: 96%" />
+    </tbody>`;
   }
-  document.getElementById("bodyMyCart").innerHTML = myCart;
+  document.getElementById("bodyMyCart").innerHTML = info;
 }
 
-
-var btn = document.querySelectorAll(".btn.btn-primary");
- console.log(btn)
-btn.forEach(function (button, index) {
-  button.addEventListener("click", function (event) {
-    {
-      var btnItem = event.target;
-      var product = btnItem.parentElement;
-   var productImg = product.querySelector("img").src
-   var productName = product.querySelector("h5").innerText;
-      console.log(productImg);
+function findById(id) {
+  for (var i = 0; i < productList.length; i++) {
+    if (productList[i].id === id) {
+      return i;
     }
-  });
-});
+  }
+
+  return -1;
+}
+
+// function qtyMyCart(){
+// var number = document.getElementById("qtyDevice").innerText
+// number++
+// }
+
+function deleteItem(info) {
+  var tbody= a.parentElement
+  tbody.remove()
+}
