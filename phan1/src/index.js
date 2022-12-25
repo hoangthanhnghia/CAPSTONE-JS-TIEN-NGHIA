@@ -81,7 +81,7 @@ function renderDevice(data) {
           <p class="card-text">
           ${data[i].desc}
           </p>
-          <button onclick="showMyCart('${data[i].id}')" class="btn btn-primary">Add To Cart</button>
+          <button onclick="showMyCart()" class="btn btn-primary">Add To Cart</button>
         </div> 
       </div>
     </div>
@@ -109,10 +109,11 @@ function createCart() {
 
 function showMyCart(id) {
   info = "";
-  var index = findById(id);
-  var cartItem = productList[index];
-  card.push(cartItem);
-  console.log(card);
+  // var index = findById(id);
+  // var cartItem = productList[index];
+  // card.push(cartItem);
+  // console.log(card);
+  mapCartItem();
   for (i = 0; i < card.length; i++) {
     info += `<tbody>
       <div class="row mx-0 align-items-center" id="test">
@@ -142,7 +143,7 @@ function showMyCart(id) {
           <p class="precio-final"></p>
         </div>
         <div class="col" style="text-align: center">
-          <button onclick="deleteCart('${card[i].id}')" class="btn btn-danger">
+          <button  class="btn btn-danger">
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </div>
@@ -185,7 +186,38 @@ function findById(id) {
 // function saveLocal() {
 //   localStorage.setItem("LS", card);
 // }
-function deleteCart() {
-  var index = findById(id);
-  cart.splice(index, 1);
+// function deleteCart() {
+//   var index = findById(id);
+//   cart.splice(index, 1);
+// }
+
+
+
+function mapCartItem() {
+  
+  for(var i = 0; i < productList.length; i++){
+   var oldProduct = productList[i];
+   var newProduct = new Product(
+     oldProduct.id,
+     oldProduct.name,
+     oldProduct.price,
+   )
+     card.push(newProduct);
+     
+  }
+  console.log(card);
+  return card; 
+//  mapCartItem();
 }
+mapCartItem();
+// var cartItem = new {Product: {
+//   productList[2]
+// },
+// quantity: 1
+// card.push(cartItem);
+// // console.log(card);
+// // return card;
+// }
+
+
+ 
