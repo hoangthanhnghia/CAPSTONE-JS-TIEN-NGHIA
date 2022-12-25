@@ -72,7 +72,7 @@ function renderDevice(data) {
     <div class="info">
       <div class="card" style="width: 18rem">
         <div class="card-body">
-          <img
+          <img 
             src= ${data[i].img}
             class="card-img-top"
             alt="Iphone14ProMaxBlack"
@@ -81,7 +81,7 @@ function renderDevice(data) {
           <p class="card-text">
           ${data[i].desc}
           </p>
-          <button onclick="showMyCart('${data[i].id}'), qtyMyCart()" class="btn btn-primary">Add To Cart</button>
+          <button onclick="showMyCart('${data[i].id}')" class="btn btn-primary">Add To Cart</button>
         </div> 
       </div>
     </div>
@@ -103,13 +103,16 @@ function renderDevice(data) {
 //     }
 //   });
 // });
+function createCart() {
+  var product = new Product();
+}
 
 function showMyCart(id) {
   info = "";
   var index = findById(id);
   var cartItem = productList[index];
   card.push(cartItem);
-  // console.log(card);
+  console.log(card);
   for (i = 0; i < card.length; i++) {
     info += `<tbody>
       <div class="row mx-0 align-items-center" id="test">
@@ -139,7 +142,7 @@ function showMyCart(id) {
           <p class="precio-final"></p>
         </div>
         <div class="col" style="text-align: center">
-          <button onclick="deleteItem('${card[i].id}')" class="btn btn-danger">
+          <button onclick="deleteCart('${card[i].id}')" class="btn btn-danger">
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </div>
@@ -164,8 +167,25 @@ function findById(id) {
 // var number = document.getElementById("qtyDevice").innerText
 // number++
 // }
+// function findIdByCart(id) {
+//   for (var i = 0; i < card.length; i++) {
+//     if (card[i].id === id) {
+//       return i;
+//     }
+//   }
+//   return -1;
+// }
+// function deleteItem(id) {
+//   var index = findIdByCart(id);
+//   if (index === -1) return alert("Id khong ton tai");
 
-function deleteItem(info) {
-  var tbody= a.parentElement
-  tbody.remove()
+//   card.splice(index, 1);
+// }
+
+// function saveLocal() {
+//   localStorage.setItem("LS", card);
+// }
+function deleteCart() {
+  var index = findById(id);
+  cart.splice(index, 1);
 }
