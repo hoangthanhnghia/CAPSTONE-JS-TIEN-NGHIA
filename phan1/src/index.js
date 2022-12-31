@@ -37,7 +37,7 @@ function genderChanged(obj) {
     for (var i = 0; i < productList.length; i++) {
       if (productList[i].type === "Iphone") {
         iphoneArr.push(productList[i])
-        console.log(iphoneArr);
+        // console.log(iphoneArr);
         renderDevice(iphoneArr);
       }
     }
@@ -47,7 +47,7 @@ function genderChanged(obj) {
     for (var i = 0; i < productList.length; i++) {
       if (productList[i].type === "Samsung") {
         samsungArr.push(productList[i])
-        console.log(samsungArr);
+        // console.log(samsungArr);
         renderDevice(samsungArr);
       }
     }
@@ -170,6 +170,19 @@ function findById(id) {
 
 function deleteCart(index){
 card.splice(index,1)
+}
+
+function saveProductList() {
+  // chuyển studentList thành chuỗi JSON
+  var productListJson = JSON.stringify(productList);
+  localStorage.setItem("SL", productListJson);
+}
+
+function getProductList() {
+  var productListJson = localStorage.getItem("SL");
+  if(!productListJson) return [];
+  var productListLocal = JSON.parse(productList);
+  return productListLocal;
 }
 
 // function mapCartItem() {
