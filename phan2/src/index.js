@@ -159,8 +159,8 @@ function getUpdateProduct(id) {
   document.getElementById("btnCreate").classList.add("btn-info");
 
   // createProduct();
-  saveProductList();
-  // renderDevice();
+  // fetchProductList();
+  // saveProductList();
 }
 
 function cancelUpdate() {
@@ -183,17 +183,26 @@ function updateProduct() {
   var img = document.getElementById("HinhSP").value;
   var desc = document.getElementById("MoTa").value;
 
-  var index = findById(id);
-  var product = productList[index];
+  // var index = findById(id);
+  var device = new Device(id, name, price, img, desc);
 
-  product.name = name;
-  product.price = price;
-  product.img = img;
-  product.desc = desc;
-
-  renderDevice();
-  saveProductList();
-  cancelUpdate();
+  var promise = axios({
+    url: "https://639bfea842e3ad69272413bc.mockapi.io/phan2/" + device.id,
+    method: "PUT",
+    // request body => POST, PUT, PATCH
+    data: device,
+  });
+  promise
+    .then(function (res) {
+      console.log("Thêm thành công!");
+      // renderDevice();
+      // createProduct();
+      fetchProductList();
+      cancelUpdate();
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
 }
 function deleteDevice(id) {
   var promise = axios({
@@ -202,16 +211,12 @@ function deleteDevice(id) {
   })
     .then(function (res) {
       console.log(res);
-      fetchProductList()
+      fetchProductList();
     })
     .catch(function (err) {
       console.log(err);
     });
 }
-
-// function refresh() {
-//   document.getElementById
-// }
 
 // --------validation------
 
