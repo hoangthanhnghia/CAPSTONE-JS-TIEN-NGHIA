@@ -167,30 +167,6 @@ function findById(id) {
   return -1;
 }
 
-function findByType(type) {
-  var find = [];
-  for (var i = 0; i < productList.length; i++){
-    var iphone = productList[i].type;
-    var samsung = productList[i].type;
-    if (iphone === "Iphone"){
-      find.push(productList[i])
-    }else if (samsung === "Samsung"){
-      find.push(productList[i])
-    }
-    renderDevice(find);
-
-    // if (productList[i].type === type) {
-    //   find.push
-    // console.log(iphone);
-      
-      // return i;
-
-    // }
-  }
-
-  return -1;
-}
-findByType("Iphone");
 
 function deleteCart(index){
 card.splice(index,1)
