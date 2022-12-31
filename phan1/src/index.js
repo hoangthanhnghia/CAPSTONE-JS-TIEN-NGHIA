@@ -1,6 +1,7 @@
 var productList = [];
 var card = [];
 
+
 function fetchProductList() {
   //   console.log("send request");
 
@@ -29,22 +30,27 @@ function genderChanged(obj) {
   var value = obj.value;
   if (value === "") {
     message.innerHTML = "Bạn chưa chọn loại sản phẩm";
+    renderDevice();
   } else if (value === "iphone") {
     message.innerHTML = "Bạn đã chọn Iphone";
+    var iphoneArr = [];
     for (var i = 0; i < productList.length; i++) {
-      if (productList.type[i] === "iphone") {
-        // duyệt vòng for chọn type === iphone cộng dồn vào mảng
-
-        // khi type === 'iphone' thì in ra danh sách iphone
-        renderProductsIphone();
+      if (productList[i].type === "Iphone") {
+        iphoneArr.push(productList[i])
+        console.log(iphoneArr);
+        renderDevice(iphoneArr);
       }
     }
   } else if (value === "samsung") {
     message.innerHTML = "Bạn đã chọn Samsung";
-    // duyệt vòng for chọn type === samsung cộng dồn vào mảng
-
-    // khi type === 'samsung' thì in ra danh sách samsung
-    renderProductsSamsung();
+    samsungArr = [];
+    for (var i = 0; i < productList.length; i++) {
+      if (productList[i].type === "Samsung") {
+        samsungArr.push(productList[i])
+        console.log(samsungArr);
+        renderDevice(samsungArr);
+      }
+    }
   }
 }
 
@@ -81,7 +87,7 @@ function renderDevice(data) {
           <p class="card-text">
           ${data[i].desc}
           </p>
-          <button onclick="showMyCart()" class="btn btn-primary">Add To Cart</button>
+          <button onclick="showMyCart('${data[i].id}')" class="btn btn-primary">Add To Cart</button>
         </div> 
       </div>
     </div>
@@ -103,17 +109,17 @@ function renderDevice(data) {
 //     }
 //   });
 // });
-function createCart() {
-  var product = new Product();
-}
+// function createCart() {
+//   var product = new Product();
+// }
 
 function showMyCart(id) {
+  
   info = "";
-  // var index = findById(id);
-  // var cartItem = productList[index];
-  // card.push(cartItem);
-  // console.log(card);
-  mapCartItem();
+  var index = findById(id);
+  var cartItem = productList[index];
+  card.push(cartItem);
+  console.log(card);
   for (i = 0; i < card.length; i++) {
     info += `<tbody>
       <div class="row mx-0 align-items-center" id="test">
@@ -130,20 +136,16 @@ function showMyCart(id) {
         <div class="col">
           <p>${card[i].price}</p>
         </div>
-        <div class="col main__nav">
-          <button style="border-radius: 50%" class="btn-qty">
-            <i class="fa-solid fa-chevron-left"></i>
-          </button>
-          <span class="cantidad-elementos" id="qty">1</span>
-          <button onclick="upNumber()" style="border-radius: 50%" class="btn-qty">
-            <i class="fa-solid fa-angle-right"></i>
-          </button>
-        </div>
+        <div class="col quantity">
+      
+      <input name="quantity" type="number" class="quantity_input" value="1">
+     
+    </div>
         <div class="col">
           <p class="precio-final"></p>
         </div>
         <div class="col" style="text-align: center">
-          <button  class="btn btn-danger">
+          <button onclick="deleteCart(${card[i].index})" class="btn btn-danger">
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </div>
@@ -152,6 +154,7 @@ function showMyCart(id) {
     </tbody>`;
   }
   document.getElementById("bodyMyCart").innerHTML = info;
+ 
 }
 
 function findById(id) {
@@ -164,60 +167,76 @@ function findById(id) {
   return -1;
 }
 
-// function qtyMyCart(){
-// var number = document.getElementById("qtyDevice").innerText
-// number++
-// }
-// function findIdByCart(id) {
-//   for (var i = 0; i < card.length; i++) {
-//     if (card[i].id === id) {
-//       return i;
-//     }
-//   }
-//   return -1;
-// }
-// function deleteItem(id) {
-//   var index = findIdByCart(id);
-//   if (index === -1) return alert("Id khong ton tai");
+function findByType(type) {
+  var find = [];
+  for (var i = 0; i < productList.length; i++){
+    var iphone = productList[i].type;
+    var samsung = productList[i].type;
+    if (iphone === "Iphone"){
+      find.push(productList[i])
+    }else if (samsung === "Samsung"){
+      find.push(productList[i])
+    }
+    renderDevice(find);
 
-//   card.splice(index, 1);
-// }
+    // if (productList[i].type === type) {
+    //   find.push
+    // console.log(iphone);
+      
+      // return i;
 
-// function saveLocal() {
-//   localStorage.setItem("LS", card);
-// }
-// function deleteCart() {
-//   var index = findById(id);
-//   cart.splice(index, 1);
-// }
-
-
-
-function mapCartItem() {
-  
-  for(var i = 0; i < productList.length; i++){
-   var oldProduct = productList[i];
-   var newProduct = new Product(
-     oldProduct.id,
-     oldProduct.name,
-     oldProduct.price,
-   )
-     card.push(newProduct);
-     
+    // }
   }
-  console.log(card);
-  return card; 
-//  mapCartItem();
+
+  return -1;
 }
-mapCartItem();
-// var cartItem = new {Product: {
-//   productList[2]
-// },
-// quantity: 1
-// card.push(cartItem);
-// // console.log(card);
-// // return card;
+findByType("Iphone");
+
+function deleteCart(index){
+card.splice(index,1)
+}
+
+// function mapCartItem() {
+//   for (var i = 0; i < productList.length; i++) {
+//     var oldProduct = productList[i];
+//     var newProduct = new Product(
+//       oldProduct.id,
+//       oldProduct.name,
+//       oldProduct.price,
+//       oldProduct.screen,
+//       oldProduct.backCamera,
+//       oldProduct.frontCamera,
+//       oldProduct.img,
+//       oldProduct.desc,
+//       oldProduct.type,
+//       this.quantity = this.quantity,
+//       this.priceItem= function(){
+//         return(oldProduct.price*this.quantity)
+//       },
+//       this.totalprice = function(){
+//         return(this.priceItem()+=this.priceItem())
+//       }
+
+//     );
+//     card.push(newProduct);
+//   }
+//   console.log(card);
+//   return card;
+// }
+
+// function saveCart() {
+//   var cartJson = JSON.stringify(card);
+//   localStorage.setItem("cart", cartJson);
+// }
+// function getCart() {
+//   var cartJson = localStorage.getItem("cart");
+//   if (!cartJson) return [];
+//   return JSON.parse(cartJson);
+// }
+// window.onload = function(){
+//   var cartFromLocal = getCart()
+//   card = mapCartItem(cartFromLocal)
+//   showMyCart()
 // }
 
 
- 
